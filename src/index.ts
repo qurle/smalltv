@@ -1,6 +1,7 @@
 import { drawAlpha } from "@/faces/alpha";
 import { registerFonts } from "@/fonts";
 import { createCanvas } from "canvas";
+import { setImage, uploadImage } from "./tv-api";
 
 const faceToDraw = 'alpha'
 
@@ -14,5 +15,12 @@ switch (faceToDraw) {
 	default: await drawAlpha(canvas, ctx)
 }
 
+const dist = `${import.meta.dir}/../dist/`
+const name = `image-alpha.jpeg`
+const path = dist + name
+
 const buffer = canvas.toBuffer('image/jpeg', { quality: 0.9 })
-Bun.write(`${import.meta.dir}/../dist/alpha/image.jpeg`, buffer.buffer, { createPath: true })
+Bun.write(path, buffer.buffer, { createPath: true })
+
+await uploadImage(path)
+await setImage(name)

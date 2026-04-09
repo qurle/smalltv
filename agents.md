@@ -6,5 +6,4 @@ This project is a JPG generator that exports 240×240 images from Canvas / HTML 
 
 - Single quotes, no semicolons.
 - Simple naming, 1 function per action.
-- c(msg) for console logs.
 

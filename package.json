@@ -6,8 +6,7 @@
   "scripts": {
     "build": "bun src/index.ts",
     "html": "bun run scripts/build.ts",
-    "dev": "bun --hot src/index.ts",
-    "upload": "bun run build & bun scripts/upload.ts"
+    "dev": "bun --hot src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.3.11"

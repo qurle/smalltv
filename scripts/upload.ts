@@ -1,3 +1,8 @@
-import config from '@/config.jsonc'
+import { setImage, uploadImage } from '@/tv-api'
 
-await fetch([config.ip,].join(''),)
+const dist = `${import.meta.dir}/../dist/`
+const name = `image-alpha.jpeg`
+const path = dist + name
+
+await uploadImage(path)
+await setImage(name)

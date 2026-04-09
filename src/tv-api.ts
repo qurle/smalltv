@@ -1,5 +1,4 @@
 import config from '@/config.jsonc'
-import type { BunFile } from 'bun'
 
 const themes = {
 	'detailed': 1,
@@ -150,11 +149,11 @@ export async function deleteAllImages(name: string) {
 }
 
 export async function uploadImage(filepath: string) {
-	return postFormFile(`/doUpload?dir=/image`, filepath)
+	return postFormFile(`doUpload?dir=/image/`, filepath)
 }
 
 export async function uploadClockGif(filepath: string) {
-	return postFormFile(`/doUpload?dir=/gif`, filepath)
+	return postFormFile(`doUpload?dir=/gif/`, filepath)
 }
 
 // ===== Brightness =====
@@ -295,11 +294,11 @@ async function countdown(date: Date) {
 // There are multiple endpoint types: some return simple statuses, some gives JSON data and some should have body
 
 async function getWithStatus(endpoint: string) {
-	return await (await fetch(config.ip + '/' + endpoint)).text()
+	return await (await fetch(config.tv_address + '/' + endpoint)).text()
 }
 
 async function getWithJSON(endpoint: string) {
-	return await (await fetch(config.ip + '/' + endpoint)).json()
+	return await (await fetch(config.tv_address + '/' + endpoint)).json()
 }
 
 
@@ -309,10 +308,22 @@ async function postFormFile(endpoint: string, filepath: string) {
 		formData.append("update", Bun.file(filepath))
 		formData.append("image", Bun.file(filepath))
 	} else {
-		formData.append("file", Bun.file(filepath))
+		formData.append("file", Bun.file(filepath), filepath.split('/').pop())
 	}
 
-	return await fetch(config.ip + '/' + endpoint, {
+	// Debug: Log all keys and values
+	console.log(Array.from(formData.entries()));
+
+	// Debug: Specific check for the file object
+	const fileEntry = formData.get("file");
+	if (fileEntry instanceof Blob) {
+		console.log(`File Name: ${fileEntry.name}`);
+		console.log(`File Size: ${fileEntry.size} bytes`);
+		console.log(`MIME Type: ${fileEntry.type}`);
+	}
+
+	console.log('path: ' + config.tv_address + '/' + endpoint)
+	return await fetch(config.tv_address + '/' + endpoint, {
 		method: "POST",
 		body: formData,
 	})

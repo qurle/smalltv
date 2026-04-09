@@ -28,7 +28,7 @@ async function drawWeather(ctx: CanvasRenderingContext2D) {
 	ctx.textAlign = 'right'
 	ctx.fillText(weather.temp, config.width - 20, nextLine)
 	nextLine += lineHeight
-	ctx.globalAlpha = 0.5
+	ctx.globalAlpha = 0.35
 	ctx.fillText(weather.cond, config.width - 20, nextLine)
 	nextLine += lineHeight
 	ctx.fillText(weather.wind, config.width - 20, nextLine)
