@@ -1,128 +1,59 @@
 # SmallTV
 
-A fast image generator for **GeekMagic Small TV Ultra** using server-side Canvas rendering.
-
-Generates 240×240 JPEG images and uploads them to your tiny TV screen. Built with **Bun** for blazing-fast performance.
-
-## Project Structure
-
-```
-smalltv/
-├── src/
-│   ├── index.ts              # Entry point - draws and uploads images
-│   ├── tv-api.ts             # Typed API for Small TV Ultra
-│   ├── fonts.ts              # Font registration for Canvas
-│   ├── utils.ts              # Utilities (padding, background, etc.)
-│   ├── config.jsonc          # TV address, location, canvas size
-│   ├── theme.json            # Color theme configuration
-│   ├── faces/
-│   │   └── alpha/
-│   │       └── index.ts      # Alpha face: time + weather display
-│   └── data/
-│       ├── getWeather.ts     # Weather data from weatherapi.com
-│       └── getTime.ts        # Time utilities
-├── scripts/
-│   └── build.ts              # HTML bundler for preview
-├── fonts/                    # Custom fonts (Inter Tight, Inter)
-├── dist/                     # Output directory for generated images
-└── index.html                # Preview page for generated images
-```
+Image generator for GeekMagic Small TV Ultra. Renders 240×240 images via server-side Canvas and uploads to device. Built with Bun.
 
 ## Setup
-
-### 1. Install dependencies
 
 ```bash
 bun install
 ```
 
-### 2. Configure
+Add `WEATHER_API_KEY` to `.env` (get free key at [weatherapi.com](https://www.weatherapi.com)).
 
-Copy `.env.example` to `.env` and add your WeatherAPI key:
-
-```bash
-cp .env .env
-```
-
-```env
-WEATHER_API_KEY=your_weatherapi_key
-```
-
-Get a free key at [weatherapi.com](https://www.weatherapi.com).
-
-### 3. Configure TV settings
-
-Edit `src/config.jsonc`:
-
+Configure `src/config.jsonc`:
 ```jsonc
 {
-  "tv_address": "http://192.168.x.x",  // Your TV's IP address
-  "location": "59.9358,30.3259",        // Your location (coordinates, city, zipcode)
+  "tv_address": "http://192.168.x.x",  // TV IP
+  "location": "59.9358,30.3259",        // Lat,Lon
   "height": "240",
   "width": "240"
 }
 ```
 
-Find your TV's IP address on the device or your router.
-
 ## Usage
 
-### Run dev mode (hot reload)
-
 ```bash
-bun run dev
+bun run dev    # dev mode with hot reload
+bun run build  # generate image and upload
+bun run html   # preview HTML
 ```
-
-### Build and generate image
-
-```bash
-bun run build
-```
-
-### Preview in browser
-
-```bash
-bun run html
-```
-
-Then open `index.html` in your browser.
 
 ## API
 
-The project includes a fully typed API for the Small TV Ultra at `src/tv-api.ts`:
+Typed API in `src/tv-api.ts`:
 
 ```typescript
-import { setImage, setTheme, setBrightness, uploadImage } from './tv-api'
+import { setImage, uploadImage } from './tv-api'
 
-// Upload and display an image
 await uploadImage('./dist/image.jpeg')
 await setImage('image.jpeg')
-
-// Change theme
-await setTheme('timeWeather')
-
-// Set brightness
-await setBrightness(128)
 ```
 
-### Key API functions
+### Functions
 
 | Category | Functions |
 |----------|-----------|
 | **Images** | `uploadImage()`, `setImage()`, `deleteImage()` |
 | **Themes** | `setTheme()`, `enableThemesAutoplay()` |
-| **Weather** | `setLocation()`, `setWeatherUnits()`, `setUpdateInterval()` |
+| **Weather** | `setLocation()`, `setWeatherUnits()` |
 | **Clock** | `setTimeFormat()`, `setDateFormat()`, `setClockColors()` |
 | **Display** | `setBrightness()`, `enableNightMode()`, `rotate()` |
-| **WiFi** | `connectToWiFi()`, `setNTP()`, `setTimeZone()` |
 | **System** | `reboot()`, `resetSettings()` |
 
-## Adding New Faces
+## New Face
 
-Create a new face in `src/faces/`:
-
+Create `src/faces/my-face/index.ts`:
 ```typescript
-// src/faces/my-face/index.ts
 import type { Canvas, CanvasRenderingContext2D } from 'canvas'
 import theme from '@/theme.json'
 
@@ -133,20 +64,38 @@ export async function drawMyFace(canvas: Canvas, ctx: CanvasRenderingContext2D) 
 }
 ```
 
-Then update `src/index.ts`:
-
+Add to `src/index.ts`:
 ```typescript
 import { drawMyFace } from "@/faces/my-face"
 
 const faceToDraw = 'my-face'
-
-// In switch case:
-case 'my-face': await drawMyFace(canvas, ctx)
+// case 'my-face': await drawMyFace(canvas, ctx)
 ```
 
-## Technology
+## Structure
 
-- **Bun** - Fast all-in-one JavaScript runtime
-- **canvas** - Server-side 2D rendering (240×240)
-- **weatherapi.com** - Weather data source
-- **TypeScript** - Full type safety
+```
+src/
+├── index.ts           # entry point
+├── tv-api.ts          # typed TV API
+├── fonts.ts           # font registration
+├── utils.ts           # helpers
+├── config.jsonc       # TV address, location
+├── theme.json         # colors
+├── faces/             # face renderers
+│   └── alpha/         # time + weather
+├── data/              # weather, time fetchers
+scripts/build.ts      # HTML bundler
+fonts/                 # custom fonts
+dist/                  # output
+```
+
+## Roadmap
+
+- [ ] More faces + preview/switch UI
+- [ ] Automation (send image every minute)
+- [ ] Cool designs
+
+## Stack
+
+Bun · Canvas · weatherapi.com · TypeScript
