@@ -1,0 +1,7 @@
+{
+	// Format: https://www.weatherapi.com/docs/#intro-request
+	"location": "59.9358,30.3259",
+	// Canvas size
+	"height": "240",
+	"width": "240"
+}
