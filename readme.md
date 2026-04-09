@@ -2,13 +2,20 @@
 
 Image generator for GeekMagic Small TV Ultra. Renders 240×240 images via server-side Canvas and uploads to device. Built with Bun.
 
+
+![Frame 4](https://github.com/user-attachments/assets/ce26da82-2976-40e4-abce-6607cca6fafb)
+
+
 ## Setup
 
 ```bash
 bun install
 ```
 
-Add `WEATHER_API_KEY` to `.env` (get free key at [weatherapi.com](https://www.weatherapi.com)).
+Grab free key at [Weather API](https://www.weatherapi.com) and add to `.env` file in project root.
+```env
+WEATHER_API_KEY = gpor4355oi940m3fdog
+```
 
 Configure `src/config.jsonc`:
 ```jsonc
@@ -92,10 +99,13 @@ dist/                  # output
 
 ## Roadmap
 
-- [ ] More faces + preview/switch UI
+- [ ] Preview and switch between multiple faces
 - [ ] Automation (send image every minute)
-- [ ] Cool designs
+- [ ] More faces with cool designs
 
 ## Stack
 
-Bun · Canvas · weatherapi.com · TypeScript
+Bun · Canvas · Weather · TypeScript
+
+Special thanks to [@joeyparis](https://github.com/joeyparis), who figured out a lot of API for GeekMagic stuff.
+And also to [@GeekMagic](https://github.com/GeekMagicClock) for making this cute piece of hackable joy.
