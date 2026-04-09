@@ -311,18 +311,6 @@ async function postFormFile(endpoint: string, filepath: string) {
 		formData.append("file", Bun.file(filepath), filepath.split('/').pop())
 	}
 
-	// Debug: Log all keys and values
-	console.log(Array.from(formData.entries()));
-
-	// Debug: Specific check for the file object
-	const fileEntry = formData.get("file");
-	if (fileEntry instanceof Blob) {
-		console.log(`File Name: ${fileEntry.name}`);
-		console.log(`File Size: ${fileEntry.size} bytes`);
-		console.log(`MIME Type: ${fileEntry.type}`);
-	}
-
-	console.log('path: ' + config.tv_address + '/' + endpoint)
 	return await fetch(config.tv_address + '/' + endpoint, {
 		method: "POST",
 		body: formData,
