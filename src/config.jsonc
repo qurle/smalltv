@@ -1,4 +1,6 @@
 {
+	// Local address of the SmallTV
+	"ip": "192.168.3.39",
 	// Format: https://www.weatherapi.com/docs/#intro-request
 	"location": "59.9358,30.3259",
 	// Canvas size

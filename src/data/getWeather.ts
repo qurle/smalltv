@@ -1,4 +1,5 @@
 import config from '@/config.jsonc'
+import { join } from '@/utils'
 
 const url = 'https://api.weatherapi.com/v1/forecast.json'
 
@@ -20,11 +21,11 @@ export async function getWeather(metric = true) {
 }
 
 async function extractWeatherData() {
-	const response = await fetch([
-		url,
-		`?key=${process.env.WEATHER_API_KEY}`,
-		`&q=${config.location}`
-	].join(''))
+	const response = await fetch(
+		url
+		+ `?key=${process.env.WEATHER_API_KEY}`
+		+ `&q=${config.location}`
+	)
 
 	const json = await response.json() as any
 
